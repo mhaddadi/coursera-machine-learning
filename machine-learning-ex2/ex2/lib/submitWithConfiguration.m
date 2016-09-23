@@ -69,6 +69,12 @@ function response = submitParts(conf, email, token, parts)
   
   fprintf('echo ''jsonBody=%s'' | curl -k -X POST -d @- %s', body, submissionUrl);
 
+  [code, responseBody] = system(sprintf('echo ''jsonBody=%s'' | curl -k -X POST -d @- %s', body, submissionUrl));
+
+% fprintf('body == %-s\n', body);
+% fprintf('code == %-s\n', code);
+% fprintf('responseBody == %-s\n', responseBody);
+
   response = loadjson(responseBody);
   
 end
