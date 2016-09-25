@@ -63,7 +63,14 @@ function response = submitParts(conf, email, token, parts)
   body = makePostBody(conf, email, token, parts);
   submissionUrl = submissionUrl();
   params = {'jsonBody', body};
-  responseBody = urlread(submissionUrl, 'post', params);
+%  responseBody = urlread(submissionUrl, 'post', params);
+  [code, responseBody] = system(sprintf('echo jsonBody=%s | curl -k -X POST -d @- %s --no-alpn', body, submissionUrl));
+%  [code, responseBody] = system(sprintf('echo ''jsonBody=%s'' | curl -k -X POST -d @- %s', body, submissionUrl));
+  
+% fprintf('body == %-s\n', body);
+% fprintf('code == %-s\n', code);
+% fprintf('responseBody == %-s\n', responseBody);
+
   response = loadjson(responseBody);
 end
 
