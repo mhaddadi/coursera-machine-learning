@@ -68,11 +68,11 @@ for k = 1 : num_labels
 end
 
 
-X = [ones(m, 1), X];
+a1 = [ones(m, 1), X];
 
 for i = 1 : m
 
-  a2 = sigmoid(Theta1 * X(i,:)');
+  a2 = sigmoid(Theta1 * a1(i,:)');
 
   a2 = [1; a2];
 
