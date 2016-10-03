@@ -67,32 +67,43 @@ for k = 1 : num_labels
 	ref_y(k) = k;
 end
 
+X = [ones(m, 1), X];
 
-a1 = [ones(m, 1), X];
+for t = 1 : m
 
-for i = 1 : m
+  a1 = X(t, :);
 
-  a2 = sigmoid(Theta1 * a1(i,:)');
+  z2 = Theta1 * a1';
+  
+  a2 = sigmoid(z2);
 
   a2 = [1; a2];
 
   a3 = sigmoid(Theta2 * a2);
 
-  y_i = (ref_y == y(i));
+  y_t = (ref_y == y(t));
 
-  J = J - (y_i' * log(a3) + (1 - y_i') * log(1 - a3));
+  J = J - (y_t' * log(a3) + (1 - y_t') * log(1 - a3));
 
+  delta3 = a3 - y_t;
+  
+  delta2 = (Theta2' * delta3)(2:end) .* sigmoidGradient(z2);
+  
+  Theta1_grad = Theta1_grad + delta2 * a1;
+  
+  Theta2_grad = Theta2_grad + delta3 * a2';
+  
 end
 
 J = J / m;
+Theta1_grad = Theta1_grad / m;
+Theta2_grad = Theta2_grad / m;
 
 reg = 0;
 
 for j = 1 : hidden_layer_size 
   reg = reg + Theta1(j,2:end) * Theta1(j,2:end)';
 end
-
-reg
 
 for j = 1 : num_labels
   reg = reg + Theta2(j,2:end) * Theta2(j,2:end)';
