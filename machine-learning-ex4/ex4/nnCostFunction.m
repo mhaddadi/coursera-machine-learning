@@ -62,10 +62,12 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-ref_y = zeros(num_labels, 1);
-for k = 1 : num_labels
-	ref_y(k) = k;
-end
+%ref_y = zeros(num_labels, 1);
+%for k = 1 : num_labels
+%	ref_y(k) = k;
+%end
+ref_y = [1:num_labels]';
+
 
 X = [ones(m, 1), X];
 
@@ -101,11 +103,13 @@ Theta2_grad = Theta2_grad / m;
 
 reg = 0;
 
-for j = 1 : hidden_layer_size 
+for j = 1 : hidden_layer_size
+  Theta1_grad(j,2:end) = Theta1_grad(j,2:end) + lambda * Theta1(j,2:end) / m; 
   reg = reg + Theta1(j,2:end) * Theta1(j,2:end)';
 end
 
 for j = 1 : num_labels
+  Theta2_grad(j,2:end) = Theta2_grad(j,2:end) + lambda * Theta2(j,2:end) / m;
   reg = reg + Theta2(j,2:end) * Theta2(j,2:end)';
 end
 
