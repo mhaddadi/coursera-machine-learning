@@ -102,7 +102,7 @@ Theta1_grad = Theta1_grad / m;
 Theta2_grad = Theta2_grad / m;
 
 reg = 0;
-
+if lambda > 0
 for j = 1 : hidden_layer_size
   Theta1_grad(j,2:end) = Theta1_grad(j,2:end) + lambda * Theta1(j,2:end) / m; 
   reg = reg + Theta1(j,2:end) * Theta1(j,2:end)';
@@ -115,6 +115,7 @@ end
 
 J = J + lambda * reg / (2 * m);
 
+end
 % -------------------------------------------------------------
 
 % =========================================================================
